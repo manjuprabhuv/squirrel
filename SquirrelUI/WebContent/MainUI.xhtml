@@ -1,0 +1,148 @@
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<f:view contentType="text/html">
+	<h:head>
+		<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Squirrel</title>
+		</f:facet>
+
+
+		<style type="text/css">
+/* .ui-widget, .ui-widget .ui-widget {
+			font-size: 90% !important;
+			} */
+.ui-widget-header .ui-corner-all {
+	
+}
+
+.ui-layout-north {
+	z-index: 20 !important;
+	overflow: visible !important;;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+	overflow: visible !important;
+}
+
+.detailstxt {
+	font-family: Lucida Grande !important;
+	font-size: 100% !important;
+}
+</style>
+
+	</h:head>
+	<h:body>
+		<h:form id="mainfrm" defaultCommand=":mainfrm:search" target="_blank">
+			<p:messages autoUpdate="true" id="msgs" showDetail="true"
+				showSummary="true" />
+
+			<p:layout fullPage="true" resizeTitle="resize"
+				style="background-color:#FFFFFF;">
+				<p:layoutUnit position="north" size="10%" id="north"
+					resizable="false">
+					<ui:include src="Header.xhtml" />
+				</p:layoutUnit>
+
+				<p:layoutUnit position="west" id="west" resizable="false"
+					collapsible="true" style="height:80%; overflow:hidden;" size="12%">
+					<ui:include src="Leftmenu.xhtml" />
+				</p:layoutUnit>
+
+				<p:layoutUnit id="mainview" styleClass="layoutUnitCenter"
+					style="border: none;" position="center">
+					<!-- <ui:include src="MainCenter.xhtml" /> -->
+					<p:layout>
+						<!-- <p:layoutUnit id="centertop" position="north" size="10%" style="border: none;">
+							<h:outputText value="Squirrel footer content loads here" />
+						</p:layoutUnit> -->
+						<p:layoutUnit id="centercenter" position="center" size="100%"
+							style="border: none;">
+							<ui:insert name="content" />
+						</p:layoutUnit>
+
+						<p:layoutUnit position="south" size="10%" resizable="false"
+							id="south">
+
+							<h:outputText value="© 2012-Today Squirrel.com"
+								style="width:76.5%; height:90%; position:relative; left:40%" />
+							<br></br>	
+							<h:link  value="Terms of Use" style="position:relative; left:37%"/>
+							<h:link value="Security" style="position:relative; left:39%"/>
+							<h:link value="Policies" style="position:relative; left:41%"/>
+						</p:layoutUnit>
+					</p:layout>
+
+				</p:layoutUnit>
+
+			</p:layout>
+			
+			
+			
+			
+			<p:dialog id="Quickview" widgetVar="QuickviewDialog" modal="true" showEffect="fade" dynamic="true" draggable="false" resizable="false">
+				<h:panelGrid columns="2" style="text-align:left;">
+					<h:panelGroup styleClass="detailstxt">
+						<p:graphicImage
+							value="/images/#{productsBean.selectedProd.brand}/#{productsBean.selectedProd.prodCode}/#{productsBean.selectedProd.prodCode}-medium.jpg" />
+						<br></br>
+						<h:panelGroup>
+								<h:outputText id="prodnm"
+								value="#{productsBean.selectedProd.prodName}" />
+						</h:panelGroup>
+						<br></br>
+
+						<h:panelGroup>
+							<h:outputLabel for="avgprc" value="Avg Price : " />
+							<h:outputText id="avgprc"
+								value="#{productsBean.selectedProd.avgPrice}" />
+						</h:panelGroup>
+						<br></br>
+						<h:panelGroup>
+							<h:outputLabel value="Avg Rating : " />
+							<p:rating value="#{productsBean.selectedProd.avgRating}"
+								readonly="true" />
+						</h:panelGroup>
+						
+
+
+					</h:panelGroup>
+					
+						<h:panelGroup>
+								<p:dataTable var="summary" value="#{productsBean.selectedProd.summary}"
+									styleClass="detailstxt">
+									<p:column headerText="Feature" style="text-align:left">
+										<h:outputText value="#{summary.summaryColNm}" />
+									</p:column>
+
+									<p:column headerText="Info" style="text-align:left">
+										<h:outputText value="#{summary.summaryColVal}" />
+									</p:column>
+
+								</p:dataTable>
+								
+								<br></br>
+								<h:outputLink value="ProdDetails.jsf" styleClass="detailstxt" style="color:blue; position:relative; left:83%">
+								<f:param name="brand" value="#{productsBean.selectedProd.brand}" />
+								<f:param name="prdkey" value="#{productsBean.selectedProd.productKey}" />
+								<f:param name="prdnm" value="#{productsBean.selectedProd.prodName}" />
+								<f:param name="prdcode" value="#{productsBean.selectedProd.prodCode}" />
+								
+								More Details
+								</h:outputLink>
+						</h:panelGroup>
+				</h:panelGrid>
+
+			</p:dialog>
+
+
+		</h:form>
+	</h:body>
+</f:view>
+</html>

@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<style type="text/css">
+.detailstxt {
+	font-family: Lucida Grande !important;
+	font-size: 120% !important;
+}
+</style>
+</h:head>
+<h:body>
+
+	<h:link outcome="MainCenter">
+		<img src="./images/Squirrel.png" align="right" height="100%"
+			width="15%" />
+	</h:link>
+
+	<h:link outcome="MainCenter" style="margin-left:0%;">
+		<h:outputText value="Home" />
+	</h:link>
+
+	<h:link id="Aboutus" style="margin-left:1%;">
+		<h:outputText value="About Us" />
+	</h:link>
+
+	<p:commandLink id="Contactus" style=" margin-left:1%;" ajax="false">
+		<h:outputText value="Contact Us" />
+	</p:commandLink>
+	<p:commandLink id="Followus" style="margin-left:1%;" ajax="false">
+		<h:outputText value="Follow Us" />
+	</p:commandLink>
+	<p:growl id="messages" />
+	<p:toolbar
+		style="width:43%; height:35%; position:relative; top:10%; left:25%;">
+		<p:toolbarGroup align="left" style="position:relative; top:5%;">
+
+			<!--             <h:selectOneMenu style="height:90%; position:relative; left:1%;">
+                <f:selectItems value="#{eMarketBean.brands}" />
+            </h:selectOneMenu> -->
+			<p:autoComplete label="Search"
+				value="#{productAutoCompleteBean.selectedProduct}"
+				minQueryLength="1" id="basicPojo"
+				completeMethod="#{productAutoCompleteBean.completeProduct}" var="p"
+				itemLabel="#{p.prodName}" itemValue="#{p}"
+				selectListener="#{productAutoCompleteBean.handleSelect}"
+				converter="product" forceSelection="true" size="85"
+				style="height:90%; position:relative; left:1%;" tabindex="0"
+				effect="fade">
+				<f:validateLength minimum="1" />
+				<p:ajax event="itemSelect"
+					listener="#{productAutoCompleteBean.handleSelect}"
+					update="messages" />
+				<f:facet name="itemtip">
+					<h:panelGrid columns="2" cellpadding="5" styleClass="detailstxt">
+						<f:facet name="header">
+							<p:graphicImage value="/images/#{p.brand}/#{p.prodCode}/#{p.prodCode}-medium.jpg"
+								width="70" height="100" />
+						</f:facet>
+
+						<h:outputText value="Name:" />
+						<h:outputText id="modelNo" value="#{p.prodName}" />
+						<h:outputText value="Manufacturer:" />
+						<h:outputText value="#{p.brand}" />
+					</h:panelGrid>
+				</f:facet>
+
+			</p:autoComplete>
+
+
+			<p:commandButton id="search" value="Search"
+				style="height:90%; position:relative; left:1%"
+				action="#{productAutoCompleteBean.searchdata}" tabindex="1" />
+		</p:toolbarGroup>
+	</p:toolbar>
+	<h:messages for="basicPojo" style="color: red;" showDetail="false" />
+</h:body>
+</html>

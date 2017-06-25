@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="/MainUI.xhtml">
+
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+		<h:head>
+			<style type="text/css">
+.photo {
+	width: 1235px;
+	height: 200px;
+	text-align: center;
+}
+</style>
+		</h:head>
+		<h:body>
+			<h:form>
+
+				<p:messages autoUpdate="true" id="msgs" showDetail="true"
+					showSummary="true" />
+
+				<p:breadCrumb style="width:99%;">
+					<p:menuitem value="Home" url="MainCenter.jsf" />
+				</p:breadCrumb>
+
+
+				<p:panel header="Mobile Search tags"
+					style="width:99%; border: none;">
+					<div align="center">
+						<p:tagCloud style="width: 100%; border: none;"
+							model="#{tagCloudBean.model}">
+							<p:ajax event="select" listener="#{tagCloudBean.onSelect}" />
+						</p:tagCloud>
+					</div>
+
+				</p:panel>
+
+
+				<p:carousel itemStyleClass="photo" autoPlayInterval="4000"
+					style="width:99%; border:none" rows="1" effect="backBoth"
+					circular="true" value="#{eMarketBean.images}" var="image">
+					<p:graphicImage value="/images/brandImages/#{image}.jpg"
+						style="align:center;border:none" />
+				</p:carousel>
+
+
+
+			</h:form>
+
+		</h:body>
+	</ui:define>
+
+</ui:composition>

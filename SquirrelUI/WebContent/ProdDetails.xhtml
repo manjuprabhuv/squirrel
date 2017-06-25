@@ -1,0 +1,154 @@
+<ui:composition xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="/MainUI.xhtml">
+
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+		<h:head>
+			<style type="text/css">
+.prodimg {
+	width: 120px;
+	height: 120px;
+	text-align: center;
+}
+
+.detailstxt {
+	font-family: Lucida Grande !important;
+	font-size: 100% !important;
+}
+
+.button {
+	background: white url('./images/visitstore.gif') no-repeat top;
+	width: 141px;
+	height: 46px
+}
+</style>
+			<script src="http://maps.google.com/maps/api/js?sensor=true"
+				type="text/javascript"></script>
+			<script type="text/javascript">
+				function gotourl(url) {
+					window.location.href = url.redirect;
+				}
+			</script>
+		</h:head>
+		<h:body>
+			<h:form target="_blank">
+
+				<p:messages autoUpdate="true" id="msgs" showDetail="true"
+					showSummary="true" />
+
+				<p:breadCrumb style="width:99%;">
+					<p:menuitem value="Home" url="MainCenter.jsf" />
+					<p:menuitem value="#{param['brand']}"
+						url="ProdList.jsf?brand=#{param['brand']}" />
+					<p:menuitem value="#{param['prdnm']}" />
+				</p:breadCrumb>
+
+
+
+
+				<h:panelGrid columns="2">
+					<h:panelGroup>
+						<p:graphicImage styleClass="prodimg" id="tab1Img"
+							value="/images/#{param['brand']}/#{param['prdcode']}/#{param['prdcode']}-medium.jpg" />
+						<br></br>
+						<h:outputText style="text-align:left" styleClass="detailstxt"
+							value="Avg Price - Rs.#{prodDetailsBean.price}"></h:outputText>
+					</h:panelGroup>
+					<h:panelGroup>
+						<h:outputText style="text-align:left" styleClass="detailstxt"
+							value="#{param['prdnm']}">
+						</h:outputText>
+						<p:rating value="#{prodDetailsBean.rating}" readonly="true" />
+					</h:panelGroup>
+				</h:panelGrid>
+
+
+				<p:tabView id="tabView" dynamic="false" cache="false"
+					style="width:99%" styleClass="detailstxt">
+
+					<p:tab id="tab1" title="Specs">
+						<h:panelGrid columns="1" cellpadding="10">
+
+
+							<h:panelGroup>
+
+								<p:dataTable var="feature" value="#{prodDetailsBean.features}"
+									styleClass="detailstxt">
+									<p:column headerText="Feature" style="text-align:left">
+										<h:outputText value="#{feature.featureName}" />
+									</p:column>
+
+									<p:column headerText="Info" style="text-align:left">
+										<h:outputText value="#{feature.featureVal}" />
+									</p:column>
+
+								</p:dataTable>
+
+
+							</h:panelGroup>
+
+						</h:panelGrid>
+
+
+					</p:tab>
+
+					<p:tab id="tab2" title="Reviews">
+						<p:dataTable id="reviewtab" var="review"
+							value="#{prodDetailsBean.reviews}"
+							emptyMessage="Unfortunately no one has reviewed this phone..!!"
+							styleClass="detailstxt">
+							<p:column>
+								<p:media value="#{review.reviewVideo}" player="flash">
+									<f:param name="autoPlay" value="false" />
+								</p:media>
+							</p:column>
+						</p:dataTable>
+					</p:tab>
+
+					<p:tab id="tab3" title="Price">
+						<p:dataTable id="vendorsTable" var="vendor"
+							value="#{prodDetailsBean.vendors}"
+							emptyMessage="Unfortunately no one is selling this phone..!!"
+							styleClass="detailstxt">
+							<p:column headerText="Seller">
+								<p:graphicImage id="tab1Img"
+									value="/images/vendors/#{vendor.vendor}.png" />
+							</p:column>
+
+							<p:column headerText="Price" sortBy="#{vendor.price}">
+								<h:outputText value="Rs.#{vendor.price}" />
+							</p:column>
+
+							<p:column headerText="Shipping">
+								<h:outputText value="#{vendor.shipping}" />
+							</p:column>
+
+							<p:column headerText="Buy Now">
+
+								<h:commandButton styleClass="button" immediate="true"
+									actionListener="#{prodDetailsBean.gotourl}">
+									<f:setPropertyActionListener
+										target="#{prodDetailsBean.vendorurl}"
+										value="#{vendor.buyLink}" />
+								</h:commandButton>
+							</p:column>
+
+						</p:dataTable>
+					</p:tab>
+
+					<p:tab id="tab5" title="Store Locator">
+						<p:gmap center="12.9833,77.5833" zoom="13" type="HYBRID"
+							style="width:600px;height:400px"
+							model="#{storeLocatorBean.simpleModel}" streetView="true" />
+					</p:tab>
+				</p:tabView>
+			</h:form>
+
+		</h:body>
+	</ui:define>
+
+</ui:composition>

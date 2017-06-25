@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" template="/MainUI.xhtml">
+
+	<ui:define name="metadata">
+	</ui:define>
+	<ui:define name="content">
+		<h:head>
+			<style type="text/css">
+.prodimg {
+	width: 100px;
+	height: 50px;
+	position: relative;
+	top: 0px;
+	left: 0px;
+	align: center;
+}
+
+.detailstxt {
+	font-family: Lucida Grande !important;
+	font-size: 100% !important;
+}
+</style>
+
+
+		</h:head>
+		<h:body>
+<h:form>
+				<p:dataGrid id="data" var="prod" value="#{searchBean.results}"
+					columns="4" style="border:none" paginator="true" paginatorPosition="top" paginatorTemplate="{CurrentPageReport}" currentPageReportTemplate="Displaying {totalRecords} results for #{param['srchquery']}">
+					<p:column style="border:none">
+						<p:panel style="text-align:center; border:none">
+						<h:outputLink value="ProdDetails.jsf">
+								<f:param name="brand" value="#{prod.brand}" />
+								<f:param name="prdkey" value="#{prod.productKey}" />
+								<f:param name="prdnm" value="#{prod.prodName}" />
+								<f:param name="prdcode" value="#{prod.prodCode}" />
+								<h:panelGrid columns="1"
+									style="text-align:left; width:100%; border:none">
+
+									<h:panelGroup>
+										<p:graphicImage value="/images/#{prod.brand}/#{prod.prodCode}/#{prod.prodCode}-medium.jpg" />
+										<br></br>
+										<h:outputText styleClass="detailstxt" style="color:blue"
+											value="#{prod.prodName}"></h:outputText>
+										<br></br>
+										<h:outputText styleClass="detailstxt"
+											value="Avg Price - #{prod.avgPrice}" />
+										<br></br>
+									<h:outputText styleClass="detailstxt" value="Avg Rating" />
+										<p:rating value="#{prod.avgRating}" readonly="true" stars="6"/>
+
+										<br></br>
+ 										<p:commandButton value="Quick View"
+											update=":mainfrm:Quickview"
+											oncomplete="QuickviewDialog.show()" title="View Detail"
+											icon="ui-icon-search">
+											<f:setPropertyActionListener value="#{prod}"
+												target="#{productsBean.selectedProd}" />
+										</p:commandButton> 
+									</h:panelGroup>
+								</h:panelGrid>
+							</h:outputLink>
+						</p:panel>
+					</p:column>
+				</p:dataGrid>
+
+
+</h:form>
+
+		</h:body>
+	</ui:define>
+
+</ui:composition>

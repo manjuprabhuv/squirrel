@@ -1,0 +1,1 @@
+<jsp:forward page="MainCenter.jsf"></jsp:forward>
